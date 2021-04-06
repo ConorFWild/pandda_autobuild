@@ -26,10 +26,14 @@ class Event:
 def execute(command: str):
     p = subprocess.Popen(command,
                          shell=True,
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE
                          )
 
-    p.communicate()
+    stdout, stderr = p.communicate()
 
+    print(f"stdout: {stdout}")
+    print(f"stderr: {stderr}")
 
 def try_make_dir(path: Path):
     if not path.exists():
