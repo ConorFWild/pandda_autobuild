@@ -156,9 +156,9 @@ def get_event_list(pandda_event_table, pandda_dir, data_dir):
 
 def main(pandda_dir: str, data_dir: str, output_dir: str):
     # Format arguments
-    pandda_dir_path = Path(pandda_dir)
-    data_dir_path = Path(data_dir)
-    output_dir_path = Path(output_dir)
+    pandda_dir_path = Path(pandda_dir).resolve()
+    data_dir_path = Path(data_dir).resolve()
+    output_dir_path = Path(output_dir).resolve()
 
     print(f"Database file path: {pandda_dir_path}")
     print(f"Database file path: {output_dir_path}")
