@@ -60,7 +60,11 @@ def dispatch(event: Event, out_dir: Path):
     mtz = event.reflections_path
     smiles = event.smiles_path
 
-    executable_script = Constants.EXECUTABLE.format(model=model,
+    # Get path to python script
+    autobuild_script_path = Path(__path__).parent / Constants.AUTOBUILD_SCRIPT
+
+    executable_script = Constants.EXECUTABLE.format(autobuild_script_path=autobuild_script_path,
+                                                    model=model,
                                                     xmap=xmap,
                                                     mtz=mtz,
                                                     smiles=smiles,

@@ -74,3 +74,5 @@ class Constants:
     PANDDA_PROCESSED_DATASETS_DIR = "processed_datasets"
     PANDDA_ANALYSES_DIR = "analyses"
     PANDDA_ANALYSE_EVENTS_FILE = "pandda_analyse_events.csv"
+
+    AUTOBUILD_SCRIPT = "autobuild.py"
