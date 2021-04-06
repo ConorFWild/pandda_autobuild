@@ -61,7 +61,7 @@ def dispatch(event: Event, out_dir: Path):
     smiles = event.smiles_path
 
     # Get path to python script
-    autobuild_script_path = Path(__path__).parent / Constants.AUTOBUILD_SCRIPT
+    autobuild_script_path = Path(__file__).parent / Constants.AUTOBUILD_SCRIPT
 
     executable_script = Constants.EXECUTABLE.format(autobuild_script_path=autobuild_script_path,
                                                     model=model,
