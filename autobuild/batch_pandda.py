@@ -125,7 +125,7 @@ def get_event_list(pandda_event_table, pandda_dir, data_dir):
 
         dataset_data_dir = data_dir / dtag
         try:
-            smiles_path = dataset_data_dir.glob("*.smiles")
+            smiles_path = next(dataset_data_dir.glob("*.smiles"))
         except:
             smiles_path = None
 
