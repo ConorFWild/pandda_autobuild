@@ -311,6 +311,9 @@ def autobuild(model: str, xmap: str, mtz: str, smiles: str, x: float, y: float, 
     # Call rhofit
     rhofit(truncated_model_path, truncated_xmap_path, mtz_path, cif_path, out_dir)
 
+    # Score rhofit builds
+
+
 
 # #####################
 # # main
