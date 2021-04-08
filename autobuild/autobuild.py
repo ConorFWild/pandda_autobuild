@@ -282,6 +282,25 @@ def rhofit(truncated_model_path: Path, truncated_xmap_path: Path, mtz_path: Path
     # Execute job script
     execute(rhofit_command)
 
+# #####################
+# Rescore
+# #####################
+
+def score_structure(structure):
+
+def score_structure_path(path: Path)
+    structure = gemmi.read_structure(str(path))
+    score = score_structure(structure)
+
+    return score
+
+def score_builds(rhofit_dir: Path):
+    regex = "Hit_*.pdb"
+    scores = {}
+    for model_path in rhofit_dir.glob(regex):
+        score = score_structure_path(model_path)
+        scores[str(model_path)] = score
+
 
 # #####################
 # # Autobuild
@@ -312,8 +331,10 @@ def autobuild(model: str, xmap: str, mtz: str, smiles: str, x: float, y: float, 
     rhofit(truncated_model_path, truncated_xmap_path, mtz_path, cif_path, out_dir)
 
     # Score rhofit builds
+    score_dictionary = score_builds(out_dir/ rhofit)
 
-
+    # Write scores
+    save_score_dictionary(score_dictionary)
 
 # #####################
 # # main
