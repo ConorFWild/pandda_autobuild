@@ -120,7 +120,7 @@ def get_event_list(pandda_event_table, pandda_dir, data_dir):
         z = row["z"]
         model_path = pandda_dir / Constants.PANDDA_PROCESSED_DATASETS_DIR / dtag / Constants.PANDDA_PDB_FILE.format(
             dtag=dtag)
-        reflections_path = pandda_dir / Constants.PANDDA_PROCESSED_DATASETS_DIR / dtag / Constants.PANDDA_PDB_FILE.format(
+        reflections_path = pandda_dir / Constants.PANDDA_PROCESSED_DATASETS_DIR / dtag / Constants.PANDDA_MTZ_FILE.format(
             dtag=dtag)
 
         dataset_data_dir = data_dir / dtag
