@@ -3,10 +3,10 @@ from __future__ import annotations
 import dataclasses
 import subprocess
 from pathlib import Path
+import json
+
 import fire
-
 import numpy as np
-
 import gemmi
 
 from constants import Constants
@@ -282,24 +282,77 @@ def rhofit(truncated_model_path: Path, truncated_xmap_path: Path, mtz_path: Path
     # Execute job script
     execute(rhofit_command)
 
+
 # #####################
 # Rescore
 # #####################
 
-def score_structure(structure):
+def score_structure(structure, xmap):
+    unit_cell = xmap.unit_cell
 
-def score_structure_path(path: Path)
-    structure = gemmi.read_structure(str(path))
-    score = score_structure(structure)
+    mask = gemmi.FloatGrid(
+        xmap.nu, xmap.nv, xmap.nw
+    )
+
+    mask.set_unit_cell(unit_cell)
+    mask.spacegroup = gemmi.find_spacegroup_by_name("P 1")
+
+    for model in structure:
+        for chain in model:
+            for residue in chain:
+                for atom_1 in residue:
+                    if atom_1.element.name == "H":
+                        continue
+                    pos_1 = atom_1.pos
+
+                    for atom_2 in residue:
+                        if atom_2.element.name == "H":
+                            continue
+                        pos_2 = atom_2.pos
+                        if pos_1.dist(pos_2) < 2.0:
+                            new_pos = gemmi.Position(
+                                (pos_1.x + pos_2.x) / 2,
+                                (pos_1.y + pos_2.y) / 2,
+                                (pos_1.z + pos_2.z) / 2,
+
+                            )
+                            mask.set_points_around(new_pos, 0.75, 1.0)
+
+    mask_array = np.array(mask)
+
+    xmap_array = np.array(xmap)
+
+    truncated_xmap_mask = xmap > 1.25
+
+    score = np.sum(truncated_xmap_mask * mask_array)
 
     return score
 
-def score_builds(rhofit_dir: Path):
-    regex = "Hit_*.pdb"
+
+def score_structure_path(path: Path, xmap):
+    structure = gemmi.read_structure(str(path))
+    score = score_structure(structure, xmap)
+
+    return score
+
+
+def score_builds(rhofit_dir: Path, xmap_path):
     scores = {}
+
+    regex = "Hit_*.pdb"
+
+    xmap = get_ccp4_map(xmap_path)
+
     for model_path in rhofit_dir.glob(regex):
-        score = score_structure_path(model_path)
+        score = score_structure_path(model_path, xmap)
         scores[str(model_path)] = score
+
+    return scores
+
+
+def save_score_dictionary(score_dictionary, path):
+    with open(str(path), "w") as f:
+        json.dump(score_dictionary, f)
 
 
 # #####################
@@ -331,10 +384,11 @@ def autobuild(model: str, xmap: str, mtz: str, smiles: str, x: float, y: float, 
     rhofit(truncated_model_path, truncated_xmap_path, mtz_path, cif_path, out_dir)
 
     # Score rhofit builds
-    score_dictionary = score_builds(out_dir/ rhofit)
+    score_dictionary = score_builds(out_dir / "rhofit", xmap_path)
 
     # Write scores
-    save_score_dictionary(score_dictionary)
+    save_score_dictionary(score_dictionary, out_dir / "scores.json")
+
 
 # #####################
 # # main
