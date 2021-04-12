@@ -326,7 +326,7 @@ def score_structure(structure, xmap):
 
     score = np.sum(truncated_xmap_mask * mask_array)
 
-    return score
+    return float(score)
 
 
 def score_structure_path(path: Path, xmap):
