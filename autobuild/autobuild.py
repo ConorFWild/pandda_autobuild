@@ -341,7 +341,7 @@ def score_builds(rhofit_dir: Path, xmap_path):
 
     regex = "Hit_*.pdb"
 
-    xmap = get_ccp4_map(xmap_path)
+    xmap = get_ccp4_map(xmap_path).grid
 
     for model_path in rhofit_dir.glob(regex):
         score = score_structure_path(model_path, xmap)
