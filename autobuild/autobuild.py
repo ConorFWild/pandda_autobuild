@@ -322,7 +322,7 @@ def score_structure(structure, xmap):
 
     xmap_array = np.array(xmap)
 
-    truncated_xmap_mask = xmap > 1.25
+    truncated_xmap_mask = xmap_array > 1.25
 
     score = np.sum(truncated_xmap_mask * mask_array)
 
@@ -370,24 +370,31 @@ def autobuild(model: str, xmap: str, mtz: str, smiles: str, x: float, y: float, 
 
     # Truncate the model
     truncated_model_path = truncate_model(model_path, coords, out_dir)
+    print(f"\tTruncated model")
 
     # Truncate the ed map
     truncated_xmap_path = truncate_xmap(xmap_path, coords, out_dir)
+    print(f"\tTruncated xmap")
 
     # Make cut out map
     cut_out_xmap(xmap_path, coords, out_dir)
+    print(f"\tCut out xmap")
 
     # Generate the cif
     cif_path = generate_cif(smiles_path, out_dir)
+    print(f"\tGenerated cif")
 
     # Call rhofit
     rhofit(truncated_model_path, truncated_xmap_path, mtz_path, cif_path, out_dir)
+    print(f"\tRhofit")
 
     # Score rhofit builds
     score_dictionary = score_builds(out_dir / "rhofit", xmap_path)
+    print(f"\tRescored")
 
     # Write scores
     save_score_dictionary(score_dictionary, out_dir / "scores.json")
+    print(f"\tSaved scores")
 
 
 # #####################
