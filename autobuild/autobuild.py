@@ -390,7 +390,7 @@ def autobuild(model: str, xmap: str, mtz: str, smiles: str, x: float, y: float, 
 
     # Score rhofit builds
     score_dictionary = score_builds(out_dir / "rhofit", xmap_path)
-    print(f"\tRescored")
+    print(f"\tRescored: {score_dictionary}")
 
     # Write scores
     save_score_dictionary(score_dictionary, out_dir / "scores.json")
