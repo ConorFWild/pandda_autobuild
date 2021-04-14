@@ -51,7 +51,7 @@ def dispatch(system: System, out_dir: Path, phenix_setup, rhofit_setup, ):
     try_make_dir(system_dir)
 
     # Get path to python script
-    batch_pandda_path = Path(__file__).parent / Constants.EXECUTABLE_BATCH_PANDDA
+    batch_pandda_path = Path(__file__).parent / Constants.BATCH_PANDDA_SCRIPT
 
     # Get path to this python
     python = sys.executable

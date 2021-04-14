@@ -94,3 +94,4 @@ class Constants:
     PANDDA_ANALYSE_EVENTS_FILE = "pandda_analyse_events.csv"
 
     AUTOBUILD_SCRIPT = "autobuild.py"
+    BATCH_PANDDA_SCRIPT = "batch_pandda.py"
