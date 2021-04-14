@@ -33,9 +33,9 @@ class Constants:
     OUTPUT_FILE = "{event_id}.out"
     ERROR_FILE = "{event_id}.err"
 
-    BATCH_PANDDA_LOG_FILE = "{system}.log"
-    BATCH_PANDDA_OUTPUT_FILE = "{system}.out"
-    BATCH_PANDDA_ERROR_FILE = "{system}.err"
+    BATCH_PANDDA_LOG_FILE = "{system_id}.log"
+    BATCH_PANDDA_OUTPUT_FILE = "{system_id}.out"
+    BATCH_PANDDA_ERROR_FILE = "{system_id}.err"
 
     REQUEST_MEMORY = "20"
     JOB = (
