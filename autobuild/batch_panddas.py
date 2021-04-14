@@ -73,9 +73,9 @@ def dispatch(system: System, out_dir: Path, phenix_setup, rhofit_setup, ):
 
     # Generate a job script file for a condor cluster
     executable_file = str(executable_script_file)
-    log_file = system_dir / Constants.BATCH_PANDDA_LOG_FILE.format(system_id=system)
-    output_file = system_dir / Constants.BATCH_PANDDA_OUTPUT_FILE.format(system_id=system)
-    error_file = system_dir / Constants.BATCH_PANDDA_ERROR_FILE.format(system_id=system)
+    log_file = system_dir / Constants.BATCH_PANDDA_LOG_FILE.format(system_id=system_id)
+    output_file = system_dir / Constants.BATCH_PANDDA_OUTPUT_FILE.format(system_id=system_id)
+    error_file = system_dir / Constants.BATCH_PANDDA_ERROR_FILE.format(system_id=system_id)
     request_memory = Constants.REQUEST_MEMORY
     job_script = Constants.JOB.format(
         executable_file=executable_file,
@@ -84,7 +84,7 @@ def dispatch(system: System, out_dir: Path, phenix_setup, rhofit_setup, ):
         error_file=error_file,
         request_memory=request_memory,
     )
-    job_script_file = system_dir / Constants.BATCH_PANDDA_JOB_SCRIPT_FILE.format(system=system_id)
+    job_script_file = system_dir / Constants.BATCH_PANDDA_JOB_SCRIPT_FILE.format(system_id=system_id)
     with open(job_script_file, "w") as f:
         f.write(job_script)
 

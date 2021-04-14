@@ -57,7 +57,7 @@ class Constants:
     )
 
     JOB_SCRIPT_FILE = "{dtag}_{event_idx}.job"
-    BATCH_PANDDA_JOB_SCRIPT_FILE = "{system}.job"
+    BATCH_PANDDA_JOB_SCRIPT_FILE = "{system_id}.job"
 
 
     COMMAND = "condor_submit {job_script_file}"
