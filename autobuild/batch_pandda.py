@@ -1,4 +1,5 @@
 import os
+import sys
 import subprocess
 from pathlib import Path
 
@@ -68,7 +69,11 @@ def dispatch(event: Event, out_dir: Path, phenix_setup, rhofit_setup, ):
     # Get path to python script
     autobuild_script_path = Path(__file__).parent / Constants.AUTOBUILD_SCRIPT
 
+    # Get path to this python
+    python = sys.executable
+
     executable_script = Constants.EXECUTABLE.format(
+        python=python,
         phenix_setup=phenix_setup,
         rhofit_setup=rhofit_setup,
         autobuild_script_path=autobuild_script_path,

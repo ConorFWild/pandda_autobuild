@@ -14,7 +14,7 @@ class Constants:
         "#!/bin/bash\n"
         "source {phenix_setup}\n"
         "source {rhofit_setup}\n"
-        "python {autobuild_script_path} {model} {xmap} {mtz} {smiles} {x} {y} {z} {out_dir}"
+        "{python} {autobuild_script_path} {model} {xmap} {mtz} {smiles} {x} {y} {z} {out_dir}"
     )
 
     EXECUTABLE_SCRIPT_FILE = "{dtag}_{event_idx}.sh"
