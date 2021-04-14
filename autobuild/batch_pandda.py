@@ -35,6 +35,7 @@ def execute(command: str):
     print(f"stdout: {stdout}")
     print(f"stderr: {stderr}")
 
+
 def try_make_dir(path: Path):
     if not path.exists():
         os.mkdir(str(path))
@@ -49,7 +50,7 @@ def chmod(path: Path):
     p.communicate()
 
 
-def dispatch(event: Event, out_dir: Path):
+def dispatch(event: Event, out_dir: Path, phenix_setup, rhofit_setup, ):
     event_id = f"{event.dtag}_{event.event_idx}"
 
     print(f"Event id: {event_id}")
@@ -67,16 +68,19 @@ def dispatch(event: Event, out_dir: Path):
     # Get path to python script
     autobuild_script_path = Path(__file__).parent / Constants.AUTOBUILD_SCRIPT
 
-    executable_script = Constants.EXECUTABLE.format(autobuild_script_path=autobuild_script_path,
-                                                    model=model,
-                                                    xmap=xmap,
-                                                    mtz=mtz,
-                                                    smiles=smiles,
-                                                    x=event.x,
-                                                    y=event.y,
-                                                    z=event.z,
-                                                    out_dir=str(event_dir)
-                                                    )
+    executable_script = Constants.EXECUTABLE.format(
+        phenix_setup=phenix_setup,
+        rhofit_setup=rhofit_setup,
+        autobuild_script_path=autobuild_script_path,
+        model=model,
+        xmap=xmap,
+        mtz=mtz,
+        smiles=smiles,
+        x=event.x,
+        y=event.y,
+        z=event.z,
+        out_dir=str(event_dir),
+    )
     executable_script_file = event_dir / Constants.EXECUTABLE_SCRIPT_FILE.format(dtag=event.dtag,
                                                                                  event_idx=event.event_idx)
     with open(executable_script_file, "w") as f:
@@ -154,11 +158,13 @@ def get_event_list(pandda_event_table, pandda_dir, data_dir):
     return event_list
 
 
-def main(pandda_dir: str, data_dir: str, output_dir: str):
+def main(pandda_dir: str, data_dir: str, output_dir: str, phenix_setup, rhofit_setup, ):
     # Format arguments
     pandda_dir_path = Path(pandda_dir).resolve().absolute()
     data_dir_path = Path(data_dir).resolve().absolute()
     output_dir_path = Path(output_dir).resolve().absolute()
+    rhofit_setup = Path(rhofit_setup).resolve().absolute()
+    phenix_setup = Path(phenix_setup).resolve().absolute()
 
     print(f"Database file path: {pandda_dir_path}")
     print(f"Database file path: {output_dir_path}")
@@ -171,7 +177,7 @@ def main(pandda_dir: str, data_dir: str, output_dir: str):
     print(f"Got {len(event_list)} events")
 
     for event in event_list:
-        dispatch(event, output_dir_path)
+        dispatch(event, output_dir_path, phenix_setup, rhofit_setup, )
 
 
 if __name__ == "__main__":

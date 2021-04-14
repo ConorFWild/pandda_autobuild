@@ -12,6 +12,8 @@ class Constants:
 
     EXECUTABLE = (
         "#!/bin/bash\n"
+        "source {phenix_setup}\n"
+        "source {rhofit_setup}\n"
         "python {autobuild_script_path} {model} {xmap} {mtz} {smiles} {x} {y} {z} {out_dir}"
     )
 

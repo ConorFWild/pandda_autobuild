@@ -359,7 +359,7 @@ def save_score_dictionary(score_dictionary, path):
 # # Autobuild
 # #####################
 
-def autobuild(model: str, xmap: str, mtz: str, smiles: str, x: float, y: float, z: float, out_dir: str):
+def autobuild(model: str, xmap: str, mtz: str, smiles: str, x: float, y: float, z: float, out_dir: str,):
     # Type all the input variables
     model_path = Path(model)
     xmap_path = Path(xmap)
