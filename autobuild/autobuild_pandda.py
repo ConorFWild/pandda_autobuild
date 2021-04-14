@@ -180,7 +180,7 @@ def autobuild(pandda_dir: str, out_dir: str, mode: str = "qsub"):
             event_map_path=event_map_path,
             reflections_path=reflections_path,
             smiles_path=smiles_path,
-            x=z,
+            x=x,
             y=y,
             z=z
         )
