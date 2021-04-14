@@ -69,7 +69,7 @@ def dispatch(event: Event, out_dir: Path, mode: str):
     smiles = event.smiles_path
 
     executable_script = Constants.EXECUTABLE.format(
-        autobuild_script_path=str(Path(os.path.dirname(__file__)) / "autobuild.py"),
+        autobuild_script_path=str(Path(__file__).parent / "autobuild.py"),
         model=model,
         xmap=xmap,
         mtz=mtz,

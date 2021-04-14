@@ -11,6 +11,7 @@ class Constants:
     )
 
     EXECUTABLE = (
+        "#!/bin/bash\n"
         "python {autobuild_script_path} {model} {xmap} {mtz} {smiles} {x} {y} {z} {out_dir}"
     )
 
