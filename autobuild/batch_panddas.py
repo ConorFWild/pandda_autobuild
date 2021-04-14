@@ -63,7 +63,7 @@ def dispatch(system: System, out_dir: Path, phenix_setup, rhofit_setup, ):
         batch_pandda_script_path=batch_pandda_path,
         pandda_dir=str(system.pandda_dir),
         data_dir=str(system.data_dir),
-        out_dir=str(system_dir),
+        output_dir=str(system_dir),
     )
     executable_script_file = system_dir / Constants.EXECUTABLE_BATCH_PANDDA_SCRIPT_FILE.format(system=system)
     with open(executable_script_file, "w") as f:
