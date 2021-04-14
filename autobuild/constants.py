@@ -17,11 +17,26 @@ class Constants:
         "{python} {autobuild_script_path} {model} {xmap} {mtz} {smiles} {x} {y} {z} {out_dir}"
     )
 
+    EXECUTABLE_BATCH_PANDDA = (
+        "#!/bin/bash\n"
+        "source \n"
+        "source \n"
+        "{python} {batch_pandda_script_path} {pandda_dir} {data_dir} {output_dir} {phenix_setup} {rhofit_setup}"
+    )
+
+    EXECUTABLE_BATCH_PANDDA_SCRIPT_FILE = "{system}.sh"
+
     EXECUTABLE_SCRIPT_FILE = "{dtag}_{event_idx}.sh"
+
 
     LOG_FILE = "{event_id}.log"
     OUTPUT_FILE = "{event_id}.out"
     ERROR_FILE = "{event_id}.err"
+
+    BATCH_PANDDA_LOG_FILE = "{system}.log"
+    BATCH_PANDDA_OUTPUT_FILE = "{system}.out"
+    BATCH_PANDDA_ERROR_FILE = "{system}.err"
+
     REQUEST_MEMORY = "20"
     JOB = (
         "#################### \n"
@@ -42,6 +57,8 @@ class Constants:
     )
 
     JOB_SCRIPT_FILE = "{dtag}_{event_idx}.job"
+    BATCH_PANDDA_JOB_SCRIPT_FILE = "{dtag}_{event_idx}.job"
+
 
     COMMAND = "condor_submit {job_script_file}"
 
