@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import dataclasses
 import subprocess
 from pathlib import Path
@@ -397,6 +398,10 @@ def autobuild(model: str, xmap: str, mtz: str, smiles: str, x: float, y: float, 
     # Write scores
     save_score_dictionary(score_dictionary, out_dir / "scores.json")
     print(f"\tSaved scores")
+
+    # Remove the big map
+    os.remove(str(truncated_xmap_path))
+
 
 
 # #####################
