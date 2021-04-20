@@ -87,6 +87,8 @@ class Constants:
     COMMAND_QSUB = "source {job_script_file}"
 
     PANDDA_EVENT_MAP_FILE = "{dtag}-event_{event_idx}_1-BDC_{bdc}_map.native.ccp4"
+    PANDDA_2_EVENT_MAP_FILE = "{dtag}-event_{event_idx}_1-BDC_{bdc}_map.ccp4"
+
     PANDDA_PDB_FILE = "{dtag}-pandda-input.pdb"
     PANDDA_MTZ_FILE = "{dtag}-pandda-input.mtz"
     PANDDA_PROCESSED_DATASETS_DIR = "processed_datasets"

@@ -148,7 +148,7 @@ def dispatch(event: Event, out_dir: Path, phenix_setup, rhofit_setup, mode):
     execute(command)
 
 
-def get_event_list(pandda_event_table, pandda_dir, data_dir, smiles_regex):
+def get_event_list(pandda_event_table, pandda_dir, data_dir, smiles_regex, pandda):
     event_list = []
     for index, row in pandda_event_table.iterrows():
         dtag = row["dtag"]
@@ -168,11 +168,18 @@ def get_event_list(pandda_event_table, pandda_dir, data_dir, smiles_regex):
             smiles_path = None
 
         bdc = row["1-BDC"]
-        event_map_path = pandda_dir / Constants.PANDDA_PROCESSED_DATASETS_DIR / dtag / Constants.PANDDA_EVENT_MAP_FILE.format(
-            dtag=dtag,
-            event_idx=event_idx,
-            bdc=bdc,
-        )
+        if pandda==1:
+            event_map_path = pandda_dir / Constants.PANDDA_PROCESSED_DATASETS_DIR / dtag / Constants.PANDDA_EVENT_MAP_FILE.format(
+                dtag=dtag,
+                event_idx=event_idx,
+                bdc=bdc,
+            )
+        else:
+            event_map_path = pandda_dir / Constants.PANDDA_PROCESSED_DATASETS_DIR / dtag / Constants.PANDDA_2_EVENT_MAP_FILE.format(
+                dtag=dtag,
+                event_idx=event_idx,
+                bdc=bdc,
+            )
 
         event = Event(
             dtag=dtag,
@@ -194,7 +201,7 @@ def get_event_list(pandda_event_table, pandda_dir, data_dir, smiles_regex):
     return event_list
 
 
-def main(pandda_dir: str, data_dir: str, output_dir: str, phenix_setup, rhofit_setup, mode="condor", smiles_regex="*.smiles"):
+def main(pandda_dir: str, data_dir: str, output_dir: str, phenix_setup, rhofit_setup, mode="condor", smiles_regex="*.smiles", pandda=1):
     # Format arguments
     pandda_dir_path = Path(pandda_dir).resolve().absolute()
     data_dir_path = Path(data_dir).resolve().absolute()
@@ -212,7 +219,7 @@ def main(pandda_dir: str, data_dir: str, output_dir: str, phenix_setup, rhofit_s
     print(f"Found event table of length: {len(pandda_event_table)} at {event_table_path}")
 
     # Select which datasets to build
-    event_list = get_event_list(pandda_event_table, pandda_dir_path, data_dir_path, smiles_regex)
+    event_list = get_event_list(pandda_event_table, pandda_dir_path, data_dir_path, smiles_regex, pandda)
     print(f"Got {len(event_list)} events")
 
     # Make output directory
