@@ -82,8 +82,8 @@ class Constants:
         "{pandda_rhofit} -map {event_map} -mtz {mtz} -pdb {pdb} -cif {cif} -out {out_dir}"
     )
 
-    JOB_QSUB = "qsub -P labxchem -q medium.q -o {output_file} -e {error_file} -l h_vmem={request_memory}G,m_mem_free={request_memory}G {executable_file}"
-    JOB_SCRIPT_FILE_QSUB = "qsub_{dtag}_{event_idx}.sh"
+    JOB_QSUB = "qsub -P labxchem -q medium.q -o {output_file} -e {error_file} -l h_vmem={h_vmem}G,m_mem_free={m_mem_free}G {executable_file}"
+    BATCH_PANDDA_JOB_SCRIPT_QSUB_FILE = "qsub_{dtag}_{event_idx}.sh"
     COMMAND_QSUB = "source {job_script_file}"
 
     PANDDA_EVENT_MAP_FILE = "{dtag}-event_{event_idx}_1-BDC_{bdc}_map.native.ccp4"

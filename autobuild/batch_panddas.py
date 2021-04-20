@@ -42,7 +42,7 @@ def chmod(path: Path):
     p.communicate()
 
 
-def dispatch(system: System, out_dir: Path, phenix_setup, rhofit_setup, ):
+def dispatch(system: System, out_dir: Path, phenix_setup, rhofit_setup, mode):
     system_id = system.system
     print(f"System id: {system.system}")
 
@@ -71,26 +71,52 @@ def dispatch(system: System, out_dir: Path, phenix_setup, rhofit_setup, ):
 
     chmod(executable_script_file)
 
-    # Generate a job script file for a condor cluster
-    executable_file = str(executable_script_file)
-    log_file = system_dir / Constants.BATCH_PANDDA_LOG_FILE.format(system_id=system_id)
-    output_file = system_dir / Constants.BATCH_PANDDA_OUTPUT_FILE.format(system_id=system_id)
-    error_file = system_dir / Constants.BATCH_PANDDA_ERROR_FILE.format(system_id=system_id)
-    request_memory = Constants.REQUEST_MEMORY
-    job_script = Constants.JOB.format(
-        executable_file=executable_file,
-        log_file=log_file,
-        output_file=output_file,
-        error_file=error_file,
-        request_memory=request_memory,
-    )
-    job_script_file = system_dir / Constants.BATCH_PANDDA_JOB_SCRIPT_FILE.format(system_id=system_id)
-    with open(job_script_file, "w") as f:
-        f.write(job_script)
+    if mode == "condor":
+        # Generate a job script file for a condor cluster
+        executable_file = str(executable_script_file)
+        log_file = system_dir / Constants.BATCH_PANDDA_LOG_FILE.format(system_id=system_id)
+        output_file = system_dir / Constants.BATCH_PANDDA_OUTPUT_FILE.format(system_id=system_id)
+        error_file = system_dir / Constants.BATCH_PANDDA_ERROR_FILE.format(system_id=system_id)
+        request_memory = Constants.REQUEST_MEMORY
+        job_script = Constants.JOB.format(
+            executable_file=executable_file,
+            log_file=log_file,
+            output_file=output_file,
+            error_file=error_file,
+            request_memory=request_memory,
+        )
+        job_script_file = system_dir / Constants.BATCH_PANDDA_JOB_SCRIPT_FILE.format(system_id=system_id)
+        with open(job_script_file, "w") as f:
+            f.write(job_script)
 
-    # Generate a shell command to submit the job to run the python script
-    command = Constants.COMMAND.format(job_script_file=job_script_file)
-    print(f"Command: {command}")
+        # Generate a shell command to submit the job to run the python script
+        command = Constants.COMMAND.format(job_script_file=job_script_file)
+        print(f"Command: {command}")
+
+    elif mode == "qsub":
+        # Generate a job script file for a condor cluster
+        executable_file = str(executable_script_file)
+        output_file = system_dir / Constants.BATCH_PANDDA_OUTPUT_FILE.format(system_id=system_id)
+        error_file = system_dir / Constants.BATCH_PANDDA_ERROR_FILE.format(system_id=system_id)
+        request_memory = Constants.REQUEST_MEMORY
+
+        job_script = Constants.JOB_QSUB.format(
+            output_file=output_file,
+            error_file=error_file,
+            h_vmem=request_memory,
+            m_mem_free=request_memory,
+            executable_file=executable_file,
+        )
+        job_script_file = system_dir / Constants.BATCH_PANDDA_JOB_SCRIPT_QSUB_FILE.format(system_id=system_id)
+        with open(job_script_file, "w") as f:
+            f.write(job_script)
+
+        # Generate a shell command to submit the job to run the python script
+        command = Constants.COMMAND_QSUB.format(job_script_file=job_script_file)
+        print(f"Command: {command}")
+
+    else:
+        raise Exception("Invalid mode!")
 
     # Submit the job
     execute(command)
@@ -115,7 +141,7 @@ def get_system_list(pandda_dirs_path, data_dirs_path):
     return system_list
 
 
-def main(pandda_dirs: str, data_dirs: str, output_dirs: str, phenix_setup, rhofit_setup, ):
+def main(pandda_dirs: str, data_dirs: str, output_dirs: str, phenix_setup, rhofit_setup, mode):
     # Format arguments
     pandda_dirs_path = Path(pandda_dirs).resolve().absolute()
     data_dirs_path = Path(data_dirs).resolve().absolute()
@@ -131,7 +157,7 @@ def main(pandda_dirs: str, data_dirs: str, output_dirs: str, phenix_setup, rhofi
     print(f"Got {len(system_list)} events")
 
     for system in system_list:
-        dispatch(system, output_dirs_path, phenix_setup, rhofit_setup, )
+        dispatch(system, output_dirs_path, phenix_setup, rhofit_setup, mode)
 
 
 if __name__ == "__main__":
