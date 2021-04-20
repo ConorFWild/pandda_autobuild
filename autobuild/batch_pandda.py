@@ -115,10 +115,8 @@ def dispatch(event: Event, out_dir: Path, phenix_setup, rhofit_setup, mode):
     elif mode == "qsub":
         # Generate a job script file for a condor cluster
         executable_file = str(executable_script_file)
-        output_file = event_dir / Constants.OUTPUT_FILE.format(dtag=event.dtag,
-                                                                       event_idx=event.event_idx)
-        error_file = event_dir / Constants.ERROR_FILE.format(dtag=event.dtag,
-                                                                       event_idx=event.event_idx)
+        output_file = event_dir / Constants.OUTPUT_FILE.format(event_id=event_id)
+        error_file = event_dir / Constants.ERROR_FILE.format(event_id=event_id)
         request_memory = Constants.REQUEST_MEMORY
 
         job_script = Constants.JOB_QSUB.format(
