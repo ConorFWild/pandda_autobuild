@@ -424,6 +424,7 @@ def autobuild(model: str, xmap: str, mtz: str, smiles: str, x: float, y: float, 
     print(f"\tSaved scores")
 
     # Remove the big map
+    print(f"Removing truncated map")
     os.remove(str(truncated_xmap_path))
 
 
