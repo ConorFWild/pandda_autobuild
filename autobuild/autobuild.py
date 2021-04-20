@@ -133,7 +133,8 @@ def get_cut_out_event_map(event_map: gemmi.FloatGrid, coord: Coord, radius: floa
 
 def get_event_map(event_map_file: Path) -> gemmi.FloatGrid:
     m = gemmi.read_ccp4_map(str(event_map_file))
-    # m.setup()
+    m.grid.spacegroup = gemmi.find_spacegroup_by_name("P 21 21 21")
+    m.setup()
 
     grid_array = np.array(m.grid, copy=True)
 
