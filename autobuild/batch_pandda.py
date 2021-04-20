@@ -51,7 +51,7 @@ def chmod(path: Path):
     p.communicate()
 
 
-def dispatch(event: Event, out_dir: Path, phenix_setup, rhofit_setup, ):
+def dispatch(event: Event, out_dir: Path, phenix_setup, rhofit_setup, mode):
     event_id = f"{event.dtag}_{event.event_idx}"
 
     print(f"Event id: {event_id}")
@@ -93,23 +93,52 @@ def dispatch(event: Event, out_dir: Path, phenix_setup, rhofit_setup, ):
 
     chmod(executable_script_file)
 
-    # Generate a job script file for a condor cluster
-    executable_file = str(executable_script_file)
-    log_file = event_dir / Constants.LOG_FILE.format(event_id=event_id)
-    output_file = event_dir / Constants.OUTPUT_FILE.format(event_id=event_id)
-    error_file = event_dir / Constants.ERROR_FILE.format(event_id=event_id)
-    request_memory = Constants.REQUEST_MEMORY
-    job_script = Constants.JOB.format(
-        executable_file=executable_file,
-        log_file=log_file,
-        output_file=output_file,
-        error_file=error_file,
-        request_memory=request_memory,
-    )
-    job_script_file = event_dir / Constants.JOB_SCRIPT_FILE.format(dtag=event.dtag,
-                                                                   event_idx=event.event_idx)
-    with open(job_script_file, "w") as f:
-        f.write(job_script)
+    if mode == "condor":
+        # Generate a job script file for a condor cluster
+        executable_file = str(executable_script_file)
+        log_file = event_dir / Constants.LOG_FILE.format(event_id=event_id)
+        output_file = event_dir / Constants.OUTPUT_FILE.format(event_id=event_id)
+        error_file = event_dir / Constants.ERROR_FILE.format(event_id=event_id)
+        request_memory = Constants.REQUEST_MEMORY
+        job_script = Constants.JOB.format(
+            executable_file=executable_file,
+            log_file=log_file,
+            output_file=output_file,
+            error_file=error_file,
+            request_memory=request_memory,
+        )
+        job_script_file = event_dir / Constants.JOB_SCRIPT_FILE.format(dtag=event.dtag,
+                                                                       event_idx=event.event_idx)
+        with open(job_script_file, "w") as f:
+            f.write(job_script)
+
+    elif mode == "qsub":
+        # Generate a job script file for a condor cluster
+        executable_file = str(executable_script_file)
+        output_file = event_dir / Constants.OUTPUT_FILE.format(dtag=event.dtag,
+                                                                       event_idx=event.event_idx)
+        error_file = event_dir / Constants.ERROR_FILE.format(dtag=event.dtag,
+                                                                       event_idx=event.event_idx)
+        request_memory = Constants.REQUEST_MEMORY
+
+        job_script = Constants.JOB_QSUB.format(
+            output_file=output_file,
+            error_file=error_file,
+            h_vmem=request_memory,
+            m_mem_free=request_memory,
+            executable_file=executable_file,
+        )
+        job_script_file = event_dir / Constants.BATCH_PANDDA_JOB_SCRIPT_QSUB_FILE.format(dtag=event.dtag,
+                                                                       event_idx=event.event_idx)
+        with open(job_script_file, "w") as f:
+            f.write(job_script)
+
+        # Generate a shell command to submit the job to run the python script
+        command = Constants.COMMAND_QSUB.format(job_script_file=job_script_file)
+        print(f"Command: {command}")
+
+    else:
+        raise Exception("Invalid mode!")
 
     # Generate a shell command to submit the job to run the python script
     command = Constants.COMMAND.format(job_script_file=job_script_file)
@@ -163,7 +192,7 @@ def get_event_list(pandda_event_table, pandda_dir, data_dir):
     return event_list
 
 
-def main(pandda_dir: str, data_dir: str, output_dir: str, phenix_setup, rhofit_setup, ):
+def main(pandda_dir: str, data_dir: str, output_dir: str, phenix_setup, rhofit_setup, mode="condor"):
     # Format arguments
     pandda_dir_path = Path(pandda_dir).resolve().absolute()
     data_dir_path = Path(data_dir).resolve().absolute()
@@ -182,7 +211,7 @@ def main(pandda_dir: str, data_dir: str, output_dir: str, phenix_setup, rhofit_s
     print(f"Got {len(event_list)} events")
 
     for event in event_list:
-        dispatch(event, output_dir_path, phenix_setup, rhofit_setup, )
+        dispatch(event, output_dir_path, phenix_setup, rhofit_setup, mode)
 
 
 if __name__ == "__main__":
