@@ -200,7 +200,8 @@ def main(pandda_dir: str, data_dir: str, output_dir: str, phenix_setup, rhofit_s
     rhofit_setup = Path(rhofit_setup).resolve().absolute()
     phenix_setup = Path(phenix_setup).resolve().absolute()
 
-    print(f"Database file path: {pandda_dir_path}")
+    print(f"Pandda dir path path: {pandda_dir_path}")
+    print(f"Data dirs path: {data_dir_path}")
     print(f"Database file path: {output_dir_path}")
 
     # Load database
