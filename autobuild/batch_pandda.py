@@ -148,7 +148,7 @@ def dispatch(event: Event, out_dir: Path, phenix_setup, rhofit_setup, mode):
     execute(command)
 
 
-def get_event_list(pandda_event_table, pandda_dir, data_dir):
+def get_event_list(pandda_event_table, pandda_dir, data_dir, smiles_regex):
     event_list = []
     for index, row in pandda_event_table.iterrows():
         dtag = row["dtag"]
@@ -163,7 +163,7 @@ def get_event_list(pandda_event_table, pandda_dir, data_dir):
 
         dataset_data_dir = data_dir / dtag
         try:
-            smiles_path = next(dataset_data_dir.glob("*.smiles"))
+            smiles_path = next(dataset_data_dir.glob(f"{smiles_regex}"))
         except:
             smiles_path = None
 
@@ -194,7 +194,7 @@ def get_event_list(pandda_event_table, pandda_dir, data_dir):
     return event_list
 
 
-def main(pandda_dir: str, data_dir: str, output_dir: str, phenix_setup, rhofit_setup, mode="condor"):
+def main(pandda_dir: str, data_dir: str, output_dir: str, phenix_setup, rhofit_setup, mode="condor", smiles_regex="*.smiles"):
     # Format arguments
     pandda_dir_path = Path(pandda_dir).resolve().absolute()
     data_dir_path = Path(data_dir).resolve().absolute()
@@ -212,7 +212,7 @@ def main(pandda_dir: str, data_dir: str, output_dir: str, phenix_setup, rhofit_s
     print(f"Found event table of length: {len(pandda_event_table)} at {event_table_path}")
 
     # Select which datasets to build
-    event_list = get_event_list(pandda_event_table, pandda_dir_path, data_dir_path)
+    event_list = get_event_list(pandda_event_table, pandda_dir_path, data_dir_path, smiles_regex)
     print(f"Got {len(event_list)} events")
 
     for event in event_list:
