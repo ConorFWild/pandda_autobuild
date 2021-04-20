@@ -112,6 +112,10 @@ def dispatch(event: Event, out_dir: Path, phenix_setup, rhofit_setup, mode):
         with open(job_script_file, "w") as f:
             f.write(job_script)
 
+            # Generate a shell command to submit the job to run the python script
+        command = Constants.COMMAND.format(job_script_file=job_script_file)
+        print(f"Command: {command}")
+
     elif mode == "qsub":
         # Generate a job script file for a condor cluster
         executable_file = str(executable_script_file)
@@ -138,9 +142,7 @@ def dispatch(event: Event, out_dir: Path, phenix_setup, rhofit_setup, mode):
     else:
         raise Exception("Invalid mode!")
 
-    # Generate a shell command to submit the job to run the python script
-    command = Constants.COMMAND.format(job_script_file=job_script_file)
-    print(f"Command: {command}")
+
 
     # Submit the job
     execute(command)
