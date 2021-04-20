@@ -292,8 +292,10 @@ def generate_cif(smiles_path: Path, out_dir: Path):
 
 def rhofit(truncated_model_path: Path, truncated_xmap_path: Path, mtz_path: Path, cif_path: Path, out_dir: Path):
     # Make rhofit commands
+    pandda_rhofit = str(Path(__file__).parent / Constants.PANDDA_RHOFIT_SCRIPT_FILE)
+
     rhofit_command: str = Constants.RHOFIT_COMMAND.format(
-        pandda_rhofit=Constants.PANDDA_RHOFIT_SCRIPT_FILE,
+        pandda_rhofit=pandda_rhofit,
         event_map=str(truncated_xmap_path),
         mtz=str(mtz_path),
         pdb=str(truncated_model_path),
