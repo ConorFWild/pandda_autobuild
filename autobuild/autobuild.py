@@ -108,6 +108,7 @@ def get_cut_out_event_map(event_map: gemmi.FloatGrid, coord: Coord, radius: floa
     xmap_array = np.array(event_map, copy=True)
 
     mask_grid = gemmi.Int8Grid(*xmap_array.shape)
+    print(f"Spacegroup: {mask_grid.spacegroup.xhm()}")
     mask_grid.spacegroup = gemmi.find_spacegroup_by_name("P 21 21 21")  #  gemmi.find_spacegroup_by_name("P 1")#event_map.spacegroup
     print(f"Spacegroup: {mask_grid.spacegroup.xhm()}")
     print(f"grid: {mask_grid}")
