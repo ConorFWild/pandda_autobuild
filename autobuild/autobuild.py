@@ -111,6 +111,7 @@ def get_cut_out_event_map(event_map: gemmi.FloatGrid, coord: Coord, radius: floa
     mask_grid.spacegroup = gemmi.find_spacegroup_by_name("P 1")#event_map.spacegroup
     print(f"Spacegroup: {mask_grid.spacegroup.xhm()}")
     print(f"grid: {mask_grid}")
+    print(f"Grid size: {mask_grid.size}")
     mask_grid.set_unit_cell(event_map.unit_cell)
 
     mask_grid.set_points_around(event_centroid,
