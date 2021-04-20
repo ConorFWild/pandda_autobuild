@@ -188,6 +188,8 @@ def get_event_list(pandda_event_table, pandda_dir, data_dir):
 
         if smiles_path:
             event_list.append(event)
+        else:
+            print(f"\tNo smiles present for dataset: {dtag} in folder {dataset_data_dir}")
 
     return event_list
 
