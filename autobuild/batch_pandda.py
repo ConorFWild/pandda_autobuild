@@ -215,6 +215,9 @@ def main(pandda_dir: str, data_dir: str, output_dir: str, phenix_setup, rhofit_s
     event_list = get_event_list(pandda_event_table, pandda_dir_path, data_dir_path, smiles_regex)
     print(f"Got {len(event_list)} events")
 
+    # Make output directory
+    try_make_dir(output_dir_path)
+
     for event in event_list:
         dispatch(event, output_dir_path, phenix_setup, rhofit_setup, mode)
 
