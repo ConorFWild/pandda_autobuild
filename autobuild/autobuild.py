@@ -214,6 +214,8 @@ def truncate_xmap(xmap_path: Path, coords: Coord, out_dir: Path):
 # #####################
 def get_ccp4_map(xmap_path):
     m = gemmi.read_ccp4_map(str(xmap_path))
+     m.grid.spacegroup = gemmi.find_spacegroup_by_name("P 1")
+
     m.setup()
 
     return m
