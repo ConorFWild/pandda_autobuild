@@ -205,8 +205,9 @@ def main(pandda_dir: str, data_dir: str, output_dir: str, phenix_setup, rhofit_s
     print(f"Output dir path: {output_dir_path}")
 
     # Load database
-    pandda_event_table = pd.read_csv(str(pandda_dir_path / "analyses" / "pandda_analyse_events.csv"))
-    print(f"Looking for event table at: {pandda_event_table}")
+    event_table_path = pandda_dir_path / "analyses" / "pandda_analyse_events.csv"
+    pandda_event_table = pd.read_csv(str(event_table_path))
+    print(f"Found event table of length: {len(pandda_event_table)} at {event_table_path}")
 
     # Select which datasets to build
     event_list = get_event_list(pandda_event_table, pandda_dir_path, data_dir_path)
