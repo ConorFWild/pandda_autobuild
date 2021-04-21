@@ -201,14 +201,14 @@ def get_event_list(pandda_event_table, pandda_dir, data_dir, smiles_regex, pandd
     return event_list
 
 
-def main(pandda_dir: str, data_dir: str, output_dir: str, phenix_setup,
-         rhofit_setup, mode="condor", smiles_regex="*.smiles", pandda=1):
+def main(pandda_dir: str, data_dir: str, output_dir: str,
+         phenix_setup, rhofit_setup, mode="condor", smiles_regex="*.smiles", pandda=1):
     # Format arguments
     pandda_dir_path = Path(pandda_dir).resolve().absolute()
     data_dir_path = Path(data_dir).resolve().absolute()
     output_dir_path = Path(output_dir).resolve().absolute()
-    rhofit_setup = Path(rhofit_setup).resolve().absolute()
-    phenix_setup = Path(phenix_setup).resolve().absolute()
+    rhofit_setup = rhofit_setup
+    phenix_setup = phenix_setup
 
     print(f"Pandda dir path path: {pandda_dir_path}")
     print(f"Data dirs path: {data_dir_path}")
