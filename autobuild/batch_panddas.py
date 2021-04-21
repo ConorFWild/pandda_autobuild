@@ -151,6 +151,11 @@ def main(pandda_dirs: str, data_dirs: str, output_dirs: str, phenix_setup, rhofi
 
     print(f"Pandda dirs path: {pandda_dirs_path}")
     print(f"Output dirs path: {output_dirs_path}")
+    print(f"Output dirs path: {output_dirs_path}")
+
+    print(f"phenix_setup: {phenix_setup}")
+    print(f"rhofit_setup: {rhofit_setup}")
+    print(f"mode: {mode}")
 
     # Select which datasets to build
     system_list = get_system_list(pandda_dirs_path, data_dirs_path)
