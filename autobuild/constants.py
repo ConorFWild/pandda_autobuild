@@ -68,7 +68,7 @@ class Constants:
 
     LIGAND_PREFIX = "ligand"
     LIGAND_CIF_FILE = "ligand.cif"
-    ELBOW_COMMAND = "cd {out_dir}; phenix.elbow {smiles_file} --output=\"{prefix}\"; cd -"
+    ELBOW_COMMAND = "{phenix_setup}; cd {out_dir}; phenix.elbow {smiles_file} --output=\"{prefix}\"; cd -"
 
     PANDDA_RHOFIT_SCRIPT_FILE = "pandda_rhofit.sh"
     # RHOFIT_COMMAND = (
@@ -83,7 +83,6 @@ class Constants:
     # )
     RHOFIT_COMMAND = (
         "#!/bin/bash \n"
-        "{phenix_setup}\n"
         "{rhofit_setup}\n"
         "{pandda_rhofit} -map {event_map} -mtz {mtz} -pdb {pdb} -cif {cif} -out {out_dir}"
     )

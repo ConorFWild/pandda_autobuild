@@ -268,16 +268,17 @@ def cut_out_xmap(xmap_path: Path, coords: Coord, out_dir: Path):
 # # Generate cif
 # #####################
 
-def get_elbow_command(smiles_file: Path, out_dir: Path) -> str:
-    command = Constants.ELBOW_COMMAND.format(out_dir=str(out_dir),
+def get_elbow_command(smiles_file: Path, out_dir: Path, phenix_setup) -> str:
+    command = Constants.ELBOW_COMMAND.format(phenix_setup=phenix_setup,
+                                             out_dir=str(out_dir),
                                              smiles_file=str(smiles_file),
                                              prefix=Constants.LIGAND_PREFIX, )
     return command
 
 
-def generate_cif(smiles_path: Path, out_dir: Path):
+def generate_cif(smiles_path: Path, out_dir: Path, phenix_setup):
     # Get the command to run elbow
-    elbow_command = get_elbow_command(smiles_path, out_dir)
+    elbow_command = get_elbow_command(smiles_path, out_dir, phenix_setup)
 
     # Run the command
     execute(elbow_command)
@@ -291,15 +292,13 @@ def generate_cif(smiles_path: Path, out_dir: Path):
 
 
 def rhofit(truncated_model_path: Path, truncated_xmap_path: Path, mtz_path: Path, cif_path: Path, out_dir: Path,
-           phenix_setup,
            rhofit_setup
            ):
     # Make rhofit commands
     pandda_rhofit = str(Path(__file__).parent / Constants.PANDDA_RHOFIT_SCRIPT_FILE)
 
     rhofit_command: str = Constants.RHOFIT_COMMAND.format(
-        phenix_setup=,
-        rhofit_setup=,
+        rhofit_setup=rhofit_setup,
         pandda_rhofit=pandda_rhofit,
         event_map=str(truncated_xmap_path),
         mtz=str(mtz_path),
@@ -390,8 +389,8 @@ def save_score_dictionary(score_dictionary, path):
 # #####################
 
 def autobuild(model: str, xmap: str, mtz: str, smiles: str, x: float, y: float, z: float, out_dir: str,
-              phenix_setup,
-              rhofit_setup,):
+              phenix_setup="",
+              rhofit_setup="",):
     # Type all the input variables
     model_path = Path(model)
     xmap_path = Path(xmap)
@@ -413,11 +412,12 @@ def autobuild(model: str, xmap: str, mtz: str, smiles: str, x: float, y: float, 
     print(f"\tCut out xmap")
 
     # Generate the cif
-    cif_path = generate_cif(smiles_path, out_dir)
+    cif_path = generate_cif(smiles_path, out_dir, phenix_setup)
     print(f"\tGenerated cif")
 
     # Call rhofit
-    rhofit(truncated_model_path, truncated_xmap_path, mtz_path, cif_path, out_dir)
+    rhofit(truncated_model_path, truncated_xmap_path, mtz_path, cif_path, out_dir,
+              rhofit_setup,)
     print(f"\tRhofit")
 
     # Score rhofit builds
