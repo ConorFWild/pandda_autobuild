@@ -14,7 +14,7 @@ class Constants:
         "#!/bin/bash\n"
         "{phenix_setup}\n"
         "{rhofit_setup}\n"
-        "{python} {autobuild_script_path} {model} {xmap} {mtz} {smiles} {x} {y} {z} {out_dir} {phenix_setup_arg} {rhofit_setup_arg}"
+        "{python} {autobuild_script_path} {model} {xmap} {mtz} {smiles} {x} {y} {z} {out_dir} \"{phenix_setup_arg}\" \"{rhofit_setup_arg}\""
     )
 
     EXECUTABLE_BATCH_PANDDA = (
