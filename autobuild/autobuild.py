@@ -292,12 +292,14 @@ def generate_cif(smiles_path: Path, out_dir: Path, phenix_setup):
 
 
 def rhofit(truncated_model_path: Path, truncated_xmap_path: Path, mtz_path: Path, cif_path: Path, out_dir: Path,
+phenix_setup,
            rhofit_setup
            ):
     # Make rhofit commands
     pandda_rhofit = str(Path(__file__).parent / Constants.PANDDA_RHOFIT_SCRIPT_FILE)
 
     rhofit_command: str = Constants.RHOFIT_COMMAND.format(
+        phenix_setup=phenix_setup,
         rhofit_setup=rhofit_setup,
         pandda_rhofit=pandda_rhofit,
         event_map=str(truncated_xmap_path),
@@ -417,7 +419,7 @@ def autobuild(model: str, xmap: str, mtz: str, smiles: str, x: float, y: float, 
 
     # Call rhofit
     rhofit(truncated_model_path, truncated_xmap_path, mtz_path, cif_path, out_dir,
-              rhofit_setup,)
+              phenix_setup, rhofit_setup,)
     print(f"\tRhofit")
 
     # Score rhofit builds

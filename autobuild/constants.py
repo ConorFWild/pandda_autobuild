@@ -83,6 +83,7 @@ class Constants:
     # )
     RHOFIT_COMMAND = (
         "#!/bin/bash \n"
+        "{phenix_setup}\n"
         "{rhofit_setup}\n"
         "{pandda_rhofit} -map {event_map} -mtz {mtz} -pdb {pdb} -cif {cif} -out {out_dir}"
     )
