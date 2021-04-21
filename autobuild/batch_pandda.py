@@ -85,6 +85,8 @@ def dispatch(event: Event, out_dir: Path, phenix_setup, rhofit_setup, mode):
         y=event.y,
         z=event.z,
         out_dir=str(event_dir),
+        phenix_setup_arg=phenix_setup,
+        rhofit_setup_arg=rhofit_setup
     )
     executable_script_file = event_dir / Constants.EXECUTABLE_SCRIPT_FILE.format(dtag=event.dtag,
                                                                                  event_idx=event.event_idx)
