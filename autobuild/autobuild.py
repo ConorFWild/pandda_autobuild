@@ -290,11 +290,16 @@ def generate_cif(smiles_path: Path, out_dir: Path):
 # #####################
 
 
-def rhofit(truncated_model_path: Path, truncated_xmap_path: Path, mtz_path: Path, cif_path: Path, out_dir: Path):
+def rhofit(truncated_model_path: Path, truncated_xmap_path: Path, mtz_path: Path, cif_path: Path, out_dir: Path,
+           phenix_setup,
+           rhofit_setup
+           ):
     # Make rhofit commands
     pandda_rhofit = str(Path(__file__).parent / Constants.PANDDA_RHOFIT_SCRIPT_FILE)
 
     rhofit_command: str = Constants.RHOFIT_COMMAND.format(
+        phenix_setup=,
+        rhofit_setup=,
         pandda_rhofit=pandda_rhofit,
         event_map=str(truncated_xmap_path),
         mtz=str(mtz_path),
@@ -384,7 +389,9 @@ def save_score_dictionary(score_dictionary, path):
 # # Autobuild
 # #####################
 
-def autobuild(model: str, xmap: str, mtz: str, smiles: str, x: float, y: float, z: float, out_dir: str,):
+def autobuild(model: str, xmap: str, mtz: str, smiles: str, x: float, y: float, z: float, out_dir: str,
+              phenix_setup,
+              rhofit_setup,):
     # Type all the input variables
     model_path = Path(model)
     xmap_path = Path(xmap)

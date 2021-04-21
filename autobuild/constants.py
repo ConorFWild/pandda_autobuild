@@ -71,14 +71,20 @@ class Constants:
     ELBOW_COMMAND = "cd {out_dir}; phenix.elbow {smiles_file} --output=\"{prefix}\"; cd -"
 
     PANDDA_RHOFIT_SCRIPT_FILE = "pandda_rhofit.sh"
+    # RHOFIT_COMMAND = (
+    #     "#!/bin/bash \n"
+    #     "source ~/.bashrc \n"
+    #     ". /data/share-2/conor/anaconda3/etc/profile.d/conda.sh\n"
+    #     "conda activate env_rdkit\n"
+    #     "source /data/share-2/conor/xtal_software/ccp4-7.1/bin/ccp4.setup-sh \n"
+    #     "source /data/share-2/conor/xtal_software/phenix/phenix-1.18.2-3874/phenix_env.sh \n"
+    #     "source /data/share-2/conor/xtal_software/buster-2.10/setup.sh \n"
+    #     "{pandda_rhofit} -map {event_map} -mtz {mtz} -pdb {pdb} -cif {cif} -out {out_dir}"
+    # )
     RHOFIT_COMMAND = (
         "#!/bin/bash \n"
-        "source ~/.bashrc \n"
-        ". /data/share-2/conor/anaconda3/etc/profile.d/conda.sh\n" 
-        "conda activate env_rdkit\n"  
-        "source /data/share-2/conor/xtal_software/ccp4-7.1/bin/ccp4.setup-sh \n"
-        "source /data/share-2/conor/xtal_software/phenix/phenix-1.18.2-3874/phenix_env.sh \n"
-        "source /data/share-2/conor/xtal_software/buster-2.10/setup.sh \n"
+        "{phenix_setup}\n"
+        "{rhofit_setup}\n"
         "{pandda_rhofit} -map {event_map} -mtz {mtz} -pdb {pdb} -cif {cif} -out {out_dir}"
     )
 
