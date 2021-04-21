@@ -19,7 +19,7 @@ class Constants:
 
     EXECUTABLE_BATCH_PANDDA = (
         "#!/bin/bash\n"
-        "{python} {batch_pandda_script_path} {pandda_dir} {data_dir} {output_dir} {phenix_setup} {rhofit_setup}"
+        "{python} {batch_pandda_script_path} {pandda_dir} {data_dir} {output_dir} \"{phenix_setup}\" \"{rhofit_setup}\""
     )
 
     EXECUTABLE_BATCH_PANDDA_SCRIPT_FILE = "{system_id}.sh"
